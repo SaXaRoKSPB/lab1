@@ -1,30 +1,38 @@
 import csv, random
-autor = input()
-Number5 = open('Number5', 'w')
+autor = input('Ведите фамилию и имя автора: ')
+Number_5 = open('Number_5', 'w')
 print('№4:')
-count3 = 0
+number_write = 0
 with open('books (1).csv') as first_file:
-    first_reader = csv.reader(first_file, delimiter = ';')
-    count1 = 0
-    count2 = 0
+    book_records = csv.reader(first_file, delimiter = ';')
+    number_book = 0
+    big_name_book = 0
     bibl_links = [0]*20
-    a = []
-    for i in first_reader:
-        if len(i[1])>30:
-            count2 += 1
-        a.append(i)
-        if (a[count1][3] == autor) and (2016<=int(a[count1][6][6:10])<=2018):
-            print(a[count1][1])
-        count1 += 1
-    for i in range(20):
-        r = random.randint(1, count1)
-        bibl_links[i] = f'{a[r][3]}. {a[r][1]} - {a[r][6][6:10]}'
-    for i in bibl_links:
-        count3 += 1
-        wrnumber5 = str(count3)+' '+i
-        print(wrnumber5, file = Number5)
-Number5.close()
-print('№2')
-print(count1-1)
-print('№3')
-print(count2)
+    list_book = []
+    for book in book_records:
+        if len(book[1]) > 30:
+            big_name_book += 1
+        list_book.append(book)
+        str_book = list_book[number_book]
+        list_autor = str_book[3]
+        date = str_book[6]
+        date_years = date[6:10]
+        name_book = str_book[1]
+        if (list_autor == autor) and (2016 <= int(date_years) <= 2018):
+            print(name_book)
+        number_book += 1
+    for book in range(20):
+        random_number = random.randint(1, number_book)
+        random_book = list_book[random_number]
+        author = random_book[3]
+        title = random_book[1]
+        date = random_book[6]
+        date_years = date[6:10]
+        bibl_links[book] = f'{author}. {title} - {date_years}'
+    for book in bibl_links:
+        number_write += 1
+        wrnumber5 = str(number_write) + ' ' + book
+        print(wrnumber5, file = Number_5)
+Number_5.close()
+print(f'№2: {number_book-1}')
+print(f'№3: {big_name_book}')
